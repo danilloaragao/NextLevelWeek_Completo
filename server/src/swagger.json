@@ -1,0 +1,263 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Api eColeta - NLW-Rocketseat",
+        "version": "1.0.0",
+        "description": "Api do sistema eColeta - Sistema que mostra pontos de coleta seletiva, podendo ser filtrado por localidade e por tipo de material a ser coletado",
+        "contact": {
+            "name": "Danillo Felipe Aragão"
+        }
+    },
+    "host": "localhost:3333/",
+    "basePath": "",
+    "tags": [
+        {
+            "name": "Items",
+            "description": "Endpoints para manipulação dos Items de coletáveis."
+        },
+        {
+            "name": "Points",
+            "description": "Endpoints para manipulação dos Pontos de coleta."
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produce": [
+        "application/json"
+    ],
+    "paths": {
+        "/items": {
+            "get": {
+                "tags": [
+                    "Items"
+                ],
+                "summary": "Retorna todos os items coletáveis.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Items"
+                        }
+                    }
+                }
+            }
+        },
+        "/points": {
+            "post": {
+                "tags": [
+                    "Points"
+                ],
+                "summary": "Cadastra um novo ponto de coleta.",
+                "parameters":[
+                    {
+                        "in": "body",
+                        "name": "point",
+                        "required": true,
+                        "description": "Dados do novo ponto de coleta.",
+                        "schema": {
+                            "$ref": "#/definitions/Point"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Point_Items"
+                        }
+                    }
+                }
+            },
+			"get": {
+                "tags": [
+                    "Points"
+                ],
+                "summary": "Retorna os pontos de coleta, filtrados por Cidade, UF e itens coletados. Cidade e UF podem ser passados apenas um pedeço do nome.",
+                "parameters": [
+                    {
+                        "in":"query",
+                        "name":"city",
+                        "description": "Cidade onde se encontra o ponto de coleta."
+                    },
+                    {
+                        "in":"query",
+                        "name":"uf",
+                        "description": "UF onde se encontra o ponto de coleta."
+                    },
+                    {
+                        "in":"query",
+                        "name":"items",
+                        "description": "Lista de itens que o ponto de coleta recolhe. (Os itens devem ser separados por vírgula)."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Points"
+                        }
+                    }
+                }
+            }
+        },
+		"/points/{id}": {
+            "get": {
+                "tags": [
+                    "Points"
+                ],
+                "summary": "Retorna um pontos de coleta de acordo com o id informado",
+                "parameters":[
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "integer",
+                        "description": "Id do ponto de coleta"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Points_Items"
+                        }
+                    },
+                    "404":{
+                        "description": "{\n\"status\": 404,\n\"message\":\"Ponto de coleta não encontrado\"\n}"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Items": {
+            "properties": {
+                "id":{
+                    "type": "integer"
+                },
+                "title":{
+                    "type": "string"
+                },
+                "mage_url":{
+                    "type": "string"
+                }
+            }
+        },
+        "Item": {
+            "properties": {
+                "title":{
+                    "type": "string"
+                },
+                "image_url":{
+                    "type": "string"
+                }
+            }
+        },
+        "Points_Items": {
+            "properties": {
+                "id":{
+                    "type": "integer"
+                },
+                "name":{
+                    "type": "string"
+                },
+                "image":{
+                    "type": "string"
+                },
+                "email":{
+                    "type": "string"
+                },
+                "whatsapp":{
+                    "type": "string"
+                },
+                "latitude":{
+                    "type": "number"
+                },
+                "longitude":{
+                    "type": "number"
+                },
+                "city":{
+                    "type": "string"
+                },
+                "uf":{
+                    "type": "string"
+                },
+                "items":{
+                    "type": "array",
+                    "items":{
+                        "type":"integer"
+                    }
+                }
+            }
+        },
+        "Points": {
+            "properties": {
+                "id":{
+                    "type": "integer"
+                },
+                "name":{
+                    "type": "string"
+                },
+                "image":{
+                    "type": "string"
+                },
+                "email":{
+                    "type": "string"
+                },
+                "whatsapp":{
+                    "type": "string"
+                },
+                "latitude":{
+                    "type": "number"
+                },
+                "longitude":{
+                    "type": "number"
+                },
+                "city":{
+                    "type": "string"
+                },
+                "uf":{
+                    "type": "string"
+                }
+            }
+        },
+        "Point": {
+            "properties": {
+                "name":{
+                    "type": "string"
+                },
+                "image":{
+                    "type": "string"
+                },
+                "email":{
+                    "type": "string"
+                },
+                "whatsapp":{
+                    "type": "string"
+                },
+                "latitude":{
+                    "type": "number"
+                },
+                "longitude":{
+                    "type": "number"
+                },
+                "city":{
+                    "type": "string"
+                },
+                "uf":{
+                    "type": "string"
+                },
+                "items":{
+                    "type": "array",
+                    "items":{
+                        "type":"integer"
+                    }
+                }
+            }
+        }
+    }
+}
